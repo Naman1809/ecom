@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 // import Carousel from "react-material-ui-carousel";
 import "./ProductDetails.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,9 +10,10 @@ import { useParams } from "react-router-dom";
 import Loader from "../layout/Loader/Loader";
 import { useAlert } from "react-alert";
 import MetaData from "../layout/MetaData";
-import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
-const ProductDetails = ({ match }) => {
+import { Carousel } from "react-responsive-carousel";
+import {addItemsToCart} from "../../actions/cartAction"
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+const ProductDetails = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { product, loading, error } = useSelector(
@@ -36,6 +37,24 @@ const ProductDetails = ({ match }) => {
     value: product.ratings,
     isHalf: true,
   };
+  const [quantity, setQuantity] = useState(1);
+
+  const increaseQuantity = () => {
+    if (product.Stock <= quantity) return;
+    const qty = quantity + 1;
+    setQuantity(qty);
+  };
+
+  const decreaseQuantity = () => {
+    if (1 >= quantity) return;
+    const qty = quantity - 1;
+    setQuantity(qty);
+  };
+
+  const addToCartHandler = () =>{
+    dispatch(addItemsToCart(id,quantity));
+    alert.success("Items Added in Cart")
+  }
 
   return (
     <Fragment>
@@ -46,7 +65,14 @@ const ProductDetails = ({ match }) => {
           <MetaData title={`${product.name} -- ECOMMERCE`} />
 
           <div className="ProductDetails">
-           
+            <div
+              style={{
+                width: "60%",
+                paddingLeft: "6vmax",
+                paddingRight: "6vmax",
+                alignSelf: "center",
+              }}
+            >
               <Carousel>
                 {product.images &&
                   product.images.map((item, i) => (
@@ -58,8 +84,7 @@ const ProductDetails = ({ match }) => {
                     />
                   ))}
               </Carousel>
-            
-
+            </div>
             <div>
               <div className="detailsBlock-1">
                 <h2>{product.name}</h2>
@@ -73,11 +98,11 @@ const ProductDetails = ({ match }) => {
                 <h1>{`₹${product.price}`}</h1>
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
-                    <button>-</button>
-                    <input value="1" type="number" />
-                    <button>+</button>
+                    <button onClick={decreaseQuantity}>-</button>
+                    <input readOnly value={quantity} type="number" />
+                    <button onClick={increaseQuantity}>+</button>
                   </div>{" "}
-                  <button>Add to Cart</button>
+                  <button onClick={addToCartHandler}>Add to Cart</button>
                 </div>
                 <p>
                   Status:{" "}

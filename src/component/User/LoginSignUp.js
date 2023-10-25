@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
 import "./LoginSignUp.css";
 import Loader from "../layout/Loader/Loader";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import MailOutllineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
@@ -63,15 +63,27 @@ const LoginSignUp = () => {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
   };
+  // const searchParams = useSearchParams();
+  // const {search}=useLocation();
+
+  const location=useLocation();
+  // console.log(location.search.split("=")[1]);
+  // if(location.search){
+  //   console.log("hello");
+  // }
+   const redirect = location.search ? `/${location.search.split("=")[1]}` : "/account";
+  
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
     if (isAuthenticated) {
-      navigate("/account");
+ 
+// console.log(location.search.split("=")[1]);
+      navigate(redirect);
     }
-  }, [alert, dispatch, error, isAuthenticated, navigate]);
+  }, [alert, dispatch, error, isAuthenticated, navigate,redirect]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {

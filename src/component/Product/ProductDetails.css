@@ -2,7 +2,7 @@
     background-color: rgb(255, 255, 255);
     width: 100vw;
     max-width: 100%;
-    padding: 6vmax;
+    padding: 5vmax;
     box-sizing: border-box;
     display: flex;
     justify-content: space-evenly;
@@ -142,7 +142,7 @@
   .submitReview {
     border: none;
     background-color: tomato;
-    font: 500 0.7vmax "Roboto";
+    font: 500 0.9vmax "Roboto";
     border-radius: 20px;
     padding: 0.6vmax 2vmax;
     margin: 1vmax 0;
@@ -260,7 +260,7 @@
     .detailsBlock-3-1-1 > input {
       padding: 1.5vmax;
       width: 3vmax;
-      font: 400 1.8vmax "Roboto";
+      font: 400 3vmax "Roboto";
     }
   
     .detailsBlock-3-1 > button:last-child {
