@@ -71,7 +71,7 @@
   }
   
   .productCard {
-    width: 14.5vmax;
+    width: 14vmax;
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -82,7 +82,7 @@
   }
   
   .productCard > img {
-    width: 14.5vmax;
+    width: 14vmax;
   }
   
   .productCard > div {

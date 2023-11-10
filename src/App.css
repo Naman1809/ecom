@@ -8,6 +8,9 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin:0;
 }
+body{
+    cursor:url("./Images/cursor.png"),auto;
+}
 
 /* For firefox*/
 input[type="number"]{
@@ -15,8 +18,8 @@ input[type="number"]{
 }
 
 .greenColor{
-    color:green;
+    color:green !important;
 }
 .redColor{
-    color:red;
+    color:red !important;
 }

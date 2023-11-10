@@ -1,15 +1,14 @@
 import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./MyOrders.css";
-import { userSelector, useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector } from "react-redux";
 import { clearErrors, myOrders } from "../../actions/orderAction";
 import Loader from "../layout/Loader/Loader";
-import { Link, useFormAction, useParams } from "react-router-dom";
+import { Link,} from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Typography } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
 import LaunchIcon from "@material-ui/icons/Launch";
-import { useForm } from "react-hook-form";
 const MyOrders = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -24,10 +23,10 @@ const MyOrders = () => {
       headerName: "Status",
       minwidth: 150,
       flex: 0.5,
-      // getCellClassName:(params) => {
-      //   return params.row.status === 'Processing' ? 'greenColor' : 'redColor';
-      // }
-      cellClass: "redColor",
+      getCellClassName:(params) => {
+        return params.row.status === 'Processing' ? 'greenColor' : 'redColor';
+      }
+      // cellClass: "redColor",
       
       },
     

@@ -5,7 +5,6 @@ import Header from "./component/layout/Header/Header";
 import WebFont from "webfontloader";
 import Footer from "./component/layout/Footer/Footer";
 import Home from "./component/Home/Home";
-// import Loader from "./component/layout/Loader/Loader";
 import ProductDetails from "./component/Product/ProductDetails";
 import Products from "./component/Product/Products";
 import Search from "./component/Product/Search";
@@ -23,14 +22,29 @@ import ResetPassword from "./component/User/ResetPassword";
 import Cart from "./component/Cart/Cart";
 import Shipping from "./component/Cart/Shipping";
 import ConfirmOrder from "./component/Cart/ConfirmOrder";
-import axios from "axios";
+import axios from "./axios.config";
 import Payment from "./component/Cart/Payment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./component/Cart/OrderSuccess";
 import MyOrders from "./component/Order/MyOrders";
+import OrderDetails from "./component/Order/OrderDetails";
+import Dashboard from "./component/Admin/Dashboard";
+import ProductList from "./component/Admin/ProductList";
+import NewProduct from "./component/Admin/NewProduct";
+import UpdateProduct from "./component/Admin/UpdateProduct";
+import OrderList from "./component/Admin/OrderList";
+import ProcessOrder from "./component/Admin/ProcessOrder";
+import UsersList from "./component/Admin/UsersList";
+import UpdateUser from "./component/Admin/UpdateUser";
+import ProductReviews from "./component/Admin/ProductReviews";
+import About from "./component/layout/About/About";
+import Contact from "./component/layout/Contact/Contact";
+import NotFound from "./component/layout/NotFound/NotFound";
 
 function App() {
+ 
+  
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const [stripeApiKey, setStripeApiKey] = useState();
 
@@ -41,6 +55,8 @@ function App() {
   }
 
   useEffect(() => {
+    
+    console.log()
     WebFont.load({
       google: {
         families: ["Roboto", "Droid Sans", "Chilanka"],
@@ -51,11 +67,21 @@ function App() {
     getStripeApiKey();
   }, []);
 
-  return (
+  window.addEventListener("contextmenu", (e) => e.preventDefault());
+
+  return( 
     <Router>
+  
       <Header />
-      {isAuthenticated && <UserOptions user={user} />}
-        <Elements stripe={loadStripe(stripeApiKey)}>
+      {stripeApiKey && isAuthenticated && <UserOptions user={user} />}
+      <Elements stripe={loadStripe(stripeApiKey)}>
+        <Routes>
+          <Route path="/" element={<ProtectedRoute />}>
+            <Route path="/process/payment" element={<Payment />} />
+          </Route>
+        </Routes>
+      </Elements>
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />
@@ -63,13 +89,17 @@ function App() {
         <Route path="/products/:keyword" element={<Products />} />
         <Route path="/search" element={<Search />} />
         <Route path="/login" element={<LoginSignUp />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
 
-        <Route path="/" element={<ProtectedRoute />}>
+        {/* <Route path="/" element={<ProtectedRoute />}> */}
           <Route path="/account" element={<Profile />} />
-        </Route>
+        {/* </Route> */}
+
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/me/update" element={<UpdateProfile />} />
         </Route>
+
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/password/update" element={<UpdatePassword />} />
         </Route>
@@ -80,26 +110,70 @@ function App() {
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/shipping" element={<Shipping />} />
         </Route>
-        <Route path="/" element={<ProtectedRoute />}>
-          <Route path="/order/confirm" element={<ConfirmOrder />} />
-        </Route>
-        {stripeApiKey && <Route path="/" element={<ProtectedRoute />}>
-          
-          <Route path="/process/payment" element={<Payment />} />
-          
-        </Route>
-          }
+
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/success" element={<OrderSuccess />} />
         </Route>
+
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/orders" element={<MyOrders />} />
         </Route>
+
+        <Route path="/" element={<ProtectedRoute />}>
+          <Route path="/order/confirm" element={<ConfirmOrder />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute />}>
+          <Route path="/order/:id" element={<OrderDetails />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/products" element={<ProductList />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/product" element={<NewProduct />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/product/:id" element={<UpdateProduct />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/product/:id" element={<UpdateProduct />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/orders" element={<OrderList />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/order/:id" element={<ProcessOrder />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/users" element={<UsersList />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/user/:id" element={<UpdateUser />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoute isAdmin={true} />}>
+          <Route path="/admin/reviews" element={<ProductReviews />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
-        </Elements>
       <Footer />
     </Router>
-  );
+    );
+
+
+  
 }
 
 export default App;

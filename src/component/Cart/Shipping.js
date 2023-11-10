@@ -11,8 +11,8 @@ import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStatio
 import { Country, State } from "country-state-city";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-import Home from "@material-ui/icons/Home";
 import CheckoutSteps from "./CheckoutSteps";
+//
 import { useNavigate } from "react-router-dom";
 
 const Shipping = () => {
@@ -34,8 +34,10 @@ const Shipping = () => {
       alert.error("Phone number should be of 10 digits");
       return;
     }
-    dispatch(saveShippingInfo({address,city,state,country,pinCode,phoneNo}));
-    navigate("/order/confirm")
+    dispatch(
+      saveShippingInfo({ address, city, state, country, pinCode, phoneNo })
+    );
+    navigate("/order/confirm");
   };
 
   return (
